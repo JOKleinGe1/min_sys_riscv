@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 		} while (3*i< strlen(line));
 
 	}
-	if (address_counter < DEPTH-1 ) printf("[%08x - %08x] : %08x ; \n", address_counter, DEPTH-1, 0); 
+	if (address_counter < DEPTH-1 ) printf("[%08x .. %08x] : %08x ; \n", address_counter, DEPTH-1, 0); 
 	printf("\nEND; \n");
     return 0;
 }
