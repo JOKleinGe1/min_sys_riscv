@@ -29,7 +29,7 @@ module system_picorv32 (input clk, resetn, output reg [7:0] LEDR, input  [7:0]SW
 		.mem_rdata   (mem_rdata  )
 	);
 
-	reg [31:0] memory [0:(`MEMORYSIZE>>2)-1];
+	reg [31:0] memory [0:(`MEMORYSIZE>>2)-1]  /* synthesis ram_init_file = " test.mif" */ ; 
 
 	initial begin
 		$readmemh("test.mem32",memory);
