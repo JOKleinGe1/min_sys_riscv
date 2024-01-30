@@ -13,7 +13,11 @@ test.mem : test.hex
 	$(OBJCOPY)  -O verilog  $^ $@
 test.mem32 : test.mem VlogMem8to32
 	./VlogMem8to32 <test.mem > test.mem32
+test.mif : test.mem VlogMem8to32
+	./VlogMem_to_QuartusMIF  <test.mem > test.mif
 VlogMem8to32 : VlogMem8to32.c
+	cc -o $@ $^
+VlogMem_to_QuartusMIF : VlogMem_to_QuartusMIF.c
 	cc -o $@ $^
 test.sec : test.hex
 	$(OBJDUMP) $^  > $@

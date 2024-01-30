@@ -1,0 +1,35 @@
+
+-- Memory initialization File (MIF) for quartus ram/rom init 
+
+-- Usage see : https://www.intel.com/content/www/us/en/programmable/quartushelp/current/index.htm#hdl/vlog/vlog_file_dir_ram_init.htm
+
+DEPTH = 32; 
+WIDTH = 8; 
+ADDRESS_RADIX = HEX; 
+ DATA_RADIX = HEX; 
+ CONTENT  
+ BEGIN  
+00000000 :  40000113 ; 
+00000001 :  0080006f ; 
+00000002 :  ff9ff06f ; 
+00000003 :  fe010113 ; 
+00000004 :  00812e23 ; 
+00000005 :  02010413 ; 
+00000006 :  00100793 ; 
+00000007 :  fef42623 ; 
+00000008 :  fec42783 ; 
+00000009 :  00178713 ; 
+0000000a :  fee42623 ; 
+0000000b :  00008737 ; 
+0000000c :  0ff7f793 ; 
+0000000d :  00f70023 ; 
+0000000e :  00000013 ; 
+0000000f :  000087b7 ; 
+00000010 :  00478793 ; 
+00000011 :  0007c783 ; 
+00000012 :  0ff7f793 ; 
+00000013 :  0017f793 ; 
+00000014 :  fe0796e3 ; 
+00000015 :  fcdff06f ; 
+
+END; 
