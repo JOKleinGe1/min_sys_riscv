@@ -3,8 +3,8 @@
 #include <string.h>
 
 #include <stdio.h>
-#define  DEPTH   32 
-#define WIDTH   8
+#define  DEPTH   (1024/4 )
+#define WIDTH   32
 #define  ADDRESS_RADIX  "HEX"
 #define  DATA_RADIX "HEX" 
 #define USAGE_REF "https://www.intel.com/content/www/us/en/programmable/quartushelp/current/index.htm#hdl/vlog/vlog_file_dir_ram_init.htm"
@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
 		} while (3*i< strlen(line));
 
 	}
+	if (address_counter < DEPTH-1 ) printf("[%08x - %08x] : %08x ; \n", address_counter, DEPTH-1, 0); 
 	printf("\nEND; \n");
     return 0;
 }
