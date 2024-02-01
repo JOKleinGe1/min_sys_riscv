@@ -14,10 +14,7 @@ module system_picorv32 (input clk, resetn, output reg [7:0] LEDR, input  [7:0]SW
 	wire [31:0] mem_addr;
 	wire [31:0] mem_wdata;
 	wire [3:0] mem_wstrb;
-	wire  [31:0] mem_rdata;
-	wire [31:0] core_read_data; 
-	reg enable_sw = 1'b0; 
-	wire wren_ram; 
+	reg  [31:0] mem_rdata;
 
 	picorv32 uut (
 		.clk         (clk        ),
@@ -29,48 +26,35 @@ module system_picorv32 (input clk, resetn, output reg [7:0] LEDR, input  [7:0]SW
 		.mem_addr    (mem_addr   ),
 		.mem_wdata   (mem_wdata  ),
 		.mem_wstrb   (mem_wstrb  ),
-		.mem_rdata   (core_read_data  )
+		.mem_rdata   (mem_rdata  )
 	);
-	assign core_read_data = (enable_sw)? SW : mem_rdata ;
 
-	// For synthesis only :  
-	ram1port	ram1port_inst (
-	.address ( mem_addr[9:2] ),
-	.byteena ( mem_wstrb ),
-	.data ( mem_wdata ),
-	.clock ( clk ),
-	.rden ( mem_valid ),
-	.wren ( wren_ram ),
-	.q ( mem_rdata )
-	);
-	
-	assign wren_ram = (| mem_wstrb); 
-	
-		always @(posedge clk) begin
-		mem_ready <= 1'b0;
-		enable_sw <= 1'b0; 
+	reg [31:0] memory [0:(`MEMORYSIZE>>2)-1]  /* synthesis ram_init_file = " test.mif" */ ; 
+
+	initial begin
+		$readmemh("test.mem32",memory);
+	end
+
+	always @(posedge clk) begin
+		mem_ready <= 0;
 		if (mem_valid && !mem_ready) begin
 			if (mem_addr <= `MEMORYSIZE) begin
 				mem_ready <= 1;
-				/*
-				mem_rdata <= memory[mem_addr >> 2];
+				/*if (mem_wstrb == 4'h0)*/ mem_rdata <= memory[mem_addr >> 2];
 				if (mem_wstrb[0]) memory[mem_addr >> 2][ 7: 0] <= mem_wdata[ 7: 0];
 				if (mem_wstrb[1]) memory[mem_addr >> 2][15: 8] <= mem_wdata[15: 8];
 				if (mem_wstrb[2]) memory[mem_addr >> 2][23:16] <= mem_wdata[23:16];
 				if (mem_wstrb[3]) memory[mem_addr >> 2][31:24] <= mem_wdata[31:24];
-				*/
 			end // end of memory
-			// add memory-mapped IO here 
+			/* add memory-mapped IO here */ 
 			if (mem_addr  ==  `LEDR_ADDRESS) begin
 				mem_ready <= 1;
 				if (mem_wstrb[0]) LEDR <= mem_wdata[ 7: 0];
 			end 
 			if (mem_addr  ==  `SW_ADDRESS) begin
-				mem_ready <= 1'b1;
-				enable_sw <= 1'b1; 
+				mem_ready <= 1;
+				mem_rdata <= SW; 
 			end // end of IO
 		end // end of 1st memory cycle
 	end // end of process
-	
-
 endmodule
