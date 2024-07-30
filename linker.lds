@@ -12,24 +12,31 @@ MEMORY
 
 SECTIONS
 {
-    .text :
+    .text : ALIGN(4)
     {
 	*(.text._start)
         *(.text)
+	_etext =  . ;
     } > ram
 
-    .rodata :
-    {
+    .rodata :  ALIGN(4)
+    {	
+	_srodata = . ;
         *(.rodata)
+	_erodata = . ;
     } > ram
 
-    .data :
+    .data :  ALIGN(4)
     {
+	_sdata = . ;
         *(.data)
+	_edata = . ;
     } > ram
 
-    .bss :
+    .bss :  ALIGN(4)
     {
-        *(.bss)
+  	_sbss = . ;
+      *(.bss)
+  	_ebss = . ;
     } > ram
 }
