@@ -12,7 +12,7 @@ module system_picorv32 (input sys_clk,sys_resetn,output reg [7:0] LEDR,input [7:
 	reg   [31:0] io_read_data;
 
 	wire 		sys_write_enable = (| cpu_write_strobe); // if one or more byte written
-	wire 		sys_read_enable = cpu_rw_cycle & (! sys_write_enable);; 
+	wire 		sys_read_enable = cpu_rw_cycle & (! sys_write_enable);
 
 	wire [31:0] ram_read_data; 
 
